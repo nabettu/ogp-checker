@@ -46,7 +46,6 @@ gulp.task 'default', (cb) ->
 gulp.task 'deploy', (cb) ->
     runSequence(
         'build',
-        'clean',
         'copy',
         'coffeelint',
         'stylestats',
