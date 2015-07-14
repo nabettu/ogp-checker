@@ -1,7 +1,7 @@
 root = './'
 dev = './src/'
 assets = dev + 'assets/'
-dist = './dist/'
+dist = './'
 
 AUTOPREFIXER_BROWSERS = [
     'ie >= 8',
@@ -44,7 +44,7 @@ module.exports =
         'css': 'style.css'
         'js': 'script.js'
 
-    # task configs    
+    # task configs
     autoprefixer: AUTOPREFIXER_BROWSERS
     modernizr:
         filename: 'modernizr.min.js'
