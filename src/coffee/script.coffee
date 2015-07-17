@@ -1,16 +1,38 @@
-do (win = window, doc = window.document) ->
+$ ->
+    $('#search').submit ->
+        search(@.children.query.value)
+        location.href = "./?url=" + encodeURIComponent(@.children.query.value)
+        return false
 
-    'use strict'
+    if getQueryString().url
+        search(getQueryString().url)
 
-    class Test
+    return 0
 
-        constructor: ->
-            @initialize()
+search = (url) ->
+    $('.siteurl')[0].innerHTML = url
 
-        initialize: (@name = 'Hello World!') ->
-            @hello(@name)
-
-        hello: (str) ->
-            console.log(str)
-
-    test = new Test()
+    $.get(url,(data) ->
+        content = $(data.responseText).filter((index,item)->
+#            console.log(item.tagName)
+            if item.tagName == 'META' or "TITLE"
+                return true
+            )
+        for value in content
+            if value.tagName == 'TITLE'
+                $('.sitetitle')[0].innerHTML = value.innerHTML.toString()
+            if value.name
+                if -1 < value.name.indexOf("twitter")
+                  #Twitter OGPの場合
+                    console.log(value.name)
+                else
+                  #標準meta
+#                  switch value.name
+#                    console.log(value.name)
+            else
+                if -1 < value.outerHTML.toString().indexOf('property')
+                  #facebook OGP
+                    console.log(value.outerHTML.toString())
+        $('#capture')[0].src = 'http://capture.heartrails.com/200x150/?' + url
+    )
+    return 0
